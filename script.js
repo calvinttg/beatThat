@@ -27,14 +27,15 @@ var rollDice = function () {
   console.log("dicenumber = " + diceNumber);
   return diceNumber;
 };
+
 // rolls 2 dice for each player
 var rollDiceForPlayer = function () {
   var counter = 0;
   while (counter < 2) {
     currentPlayerDiceNumber.push(rollDice()); //using roll to generate numbers, using push() to add the numbers to currentPlayerDiceNumber string created
-    counter++;
+    counter += 1;
   }
-  console.log("current player dice numbers are: " + currentPlayerDiceNumber);
+  console.log("Current player dice numbers are: " + currentPlayerDiceNumber);
   return (
     "Player " +
     currentPlayer +
@@ -45,8 +46,10 @@ var rollDiceForPlayer = function () {
     "<br> Please input 1 (Dice1) or 2 (Dice2) to pick the dice result as the first digit"
   );
 };
+
+//input validation, combine score, and scoreboard
 var playerScoreCounter = function (playerInput) {
-  var playerScore;
+  var playerScore = "";
   if (playerInput != 1 && playerInput != 2) {
     console.log("error input");
     return (
@@ -58,12 +61,14 @@ var playerScoreCounter = function (playerInput) {
   }
   if (playerInput == 1) {
     console.log("input 1");
-    console.log(currentPlayerDiceNumber[0]);
-    console.log(currentPlayerDiceNumber[1]);
     var playerScore = Number(
       String(currentPlayerDiceNumber[0]) + String(currentPlayerDiceNumber[1])
     );
-    console.log(playerScore);
+    scoreBoard.push(playerScore);
+    currentPlayerDiceNumber = [];
+    console.log(scoreBoard);
+    console.log(currentPlayerDiceNumber);
+    console.log("currentplayer1score : " + playerScore);
     return "Your score is: " + playerScore;
   }
   if (playerInput == 2) {
@@ -71,24 +76,40 @@ var playerScoreCounter = function (playerInput) {
     var playerScore = Number(
       String(currentPlayerDiceNumber[1]) + String(currentPlayerDiceNumber[0])
     );
-    console.log(playerScore);
+    scoreBoard.push(playerScore);
+    currentPlayerDiceNumber = [];
+    console.log(scoreBoard);
+    console.log(currentPlayerDiceNumber);
+    console.log("currentplayer2score: " + playerScore);
     return "Your score is: " + playerScore;
   }
-  scoreBoard.push(playerScore);
-  currentPlayerDiceNumber = [];
-  return "Player " + currentPlayer + "your chosen value is " + playerScore;
+};
+
+var comparePlayerScore = function () {
+  var compareMessage =
+    "Player 1 score: " + scoreBoard[0] + "<br>Player 2 score: " + scoreBoard[1];
+  if (scoreBoard[0] == scoreBoard[1]) {
+    compareMessage = compareMessage + "<br> It is a tie.";
+  }
+  if (scoreBoard[0] > scoreBoard[1]) {
+    compareMessage = compareMessage + "<br> Player 1 wins";
+  }
+  if (scoreBoard[0] < scoreBoard[1]) {
+    compareMessage = compareMessage + "<br> Player 2 wins.";
+  }
+  console.log(scoreBoard[0]);
+  console.log(scoreBoard[1]);
+  return compareMessage;
 };
 
 var main = function (input) {
-  console.log("current gamestate: " + gameState);
-  console.log("current player is: " + currentPlayer);
+  console.log("Current gamestate: " + gameState);
+  console.log("Current player is: " + currentPlayer);
   if (gameState == gameStateRollDice) {
     gameState = gameStateChooseDice;
-    return rollDiceForPlayer() + "<br>";
   }
   console.log(rollDiceForPlayer());
   console.log(gameState);
-  rollDiceForPlayer();
 
   if (gameState == gameStateChooseDice) {
     myOutputMessage = playerScoreCounter(input);
@@ -101,8 +122,16 @@ var main = function (input) {
     if (currentPlayer == 2) {
       console.log("End of Player 2's turn. Calculating scores");
       gameState = gameStateCompareScore;
-      return myOutputMessage + "Click submit to calculate score.";
+      return myOutputMessage + "<br>Click submit to calculate score.";
     }
   }
+  if (gameState == gameStateCompareScore) {
+    console.log("current gamestate: compareScore");
+    console.log(scoreBoard[0]);
+    console.log(scoreBoard[1]);
+    myOutputMessage = comparePlayerScore();
+    return myOutputMessage;
+  }
 };
+
 //hello
