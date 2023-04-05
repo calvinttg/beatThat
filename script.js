@@ -34,7 +34,7 @@ var rollDiceForPlayer = function () {
     currentPlayerDiceNumber.push(rollDice()); //using roll to generate numbers, using push() to add the numbers to currentPlayerDiceNumber string created
     counter++;
   }
-  console.log("current player dice number: " + currentPlayerDiceNumber);
+  console.log("current player dice numbers are: " + currentPlayerDiceNumber);
   return (
     "Player " +
     currentPlayer +
@@ -80,10 +80,11 @@ var playerScoreCounter = function (playerInput) {
 };
 
 var main = function (input) {
-  console.log("gamestate " + gameState);
-  console.log("currentPlayer " + currentPlayer);
+  console.log("current gamestate: " + gameState);
+  console.log("current player is: " + currentPlayer);
   if (gameState == gameStateRollDice) {
     gameState = gameStateChooseDice;
+    return rollDiceForPlayer() + "<br>";
   }
   console.log(rollDiceForPlayer());
   console.log(gameState);
