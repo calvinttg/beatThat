@@ -102,6 +102,12 @@ var comparePlayerScore = function () {
   return compareMessage;
 };
 
+var resetGame = function () {
+  currentPlayer = 1;
+  gameState = gameStateRollDice;
+  scoreBoard = [];
+};
+
 var main = function (input) {
   console.log("Current gamestate: " + gameState);
   console.log("Current player is: " + currentPlayer);
@@ -117,7 +123,10 @@ var main = function (input) {
       console.log("end of player 1 turn");
       currentPlayer = 2;
       gameState = gameStateRollDice;
-      return myOutputMessage + "<br> Now is Player 2's turn.";
+      return (
+        myOutputMessage +
+        "<br> Now is Player 2's turn. <br>Please enter 1 or 2 to choose corresponding dice"
+      );
     }
     if (currentPlayer == 2) {
       console.log("End of Player 2's turn. Calculating scores");
@@ -127,11 +136,17 @@ var main = function (input) {
   }
   if (gameState == gameStateCompareScore) {
     console.log("current gamestate: compareScore");
-    console.log(scoreBoard[0]);
-    console.log(scoreBoard[1]);
     myOutputMessage = comparePlayerScore();
+
+    resetGame();
+    console.log("current player after reset: " + currentPlayer);
+    console.log("current gamestate after reset: " + gameState);
+    console.log("playerscore array: " + scoreBoard);
     return myOutputMessage;
   }
 };
 
-//hello
+//issues:
+//each submit generates 2 dice rolls
+//reset doesnt make a clean slate
+//error input does not stop process to validate input
